@@ -1,0 +1,65 @@
+{%  extends 'grocery/main.html' %}
+{% load static %}
+{% block content %}
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>View List</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <!-- top -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1>View Grocery List</h1>
+                </div>
+                <div class="col-lg-6 float-right">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <!-- Date Filtering-->
+                            <form action="{% url 'search' %}" method="POST">{% csrf_token %}
+                           
+                           <input name="date_search" type="date" class="form-control">
+
+                        </div>
+                            
+                        <div class="col-lg-4">
+                        
+                            <button type="submit" class="btn btn-danger">Filter</button>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- // top -->
+            <!-- Grocery Cards -->
+            <div class="row mt-4">
+                <!--- -->
+                <!-- Loop This -->
+                {% for i in date %}
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">{{i.name}}</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">{{i.quantity}} Pcs.</h6>
+                          <p class="text-success">{{i.status}}</p>
+                          <p class="text-success">{{i.ordered_date|date:"o/n/d"}}</p>
+                          <a href="{% url 'update' i.pk %}" class="btn btn-primary" role="button">Update</a>
+                          <a href="{% url 'delete' i.pk %}" class="btn btn-primary" role="button">Delete</a>
+                        </div>
+                      </div>
+                </div>
+                {% endfor %}
+                <!-- // Loop -->
+                
+
+            </div>
+        </div>
+
+        
+    </body>
+</html>
+{% endblock %}
